@@ -8,18 +8,18 @@ import Header from '../components/Header';
 
 const puzzles = [
   {
-    title: "The Ancient Cipher",
-    description: "Decode the ancient symbols to reveal a hidden message. Perfect for beginners!",
-    imageUrl: "https://images.unsplash.com/photo-1577373820541-e33259e0c356?auto=format&fit=crop&q=80&w=1000"
+    title: "Piece by Piece",
+    description: "What you’re looking for is scattered — bring it together.",
+    imageUrl: "https://imgs.search.brave.com/-erWI0Ooq0n96w1plSY7Ap5gK7QrML2vokLa2hHvZQ4/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvOTY1/MDIyMjEvcGhvdG8v/amlnc2F3LXB1enps/ZS1waWVjZXMuanBn/P3M9NjEyeDYxMiZ3/PTAmaz0yMCZjPTY1/M0l5TEY0S0ZlOXdw/ZnBSWEkwWlBCNkxo/VGhIclhvMi1MRWVB/YURvTW89"
   },
   {
-    title: "Pattern Matrix",
-    description: "Find the missing pattern in this complex matrix of symbols and numbers.",
+    title: "Repo Secrets",
+    description: "A mysterious GitHub repo holds something hidden.",
     imageUrl: "https://images.unsplash.com/photo-1614741118887-7a4ee193a5fa?auto=format&fit=crop&q=80&w=1000"
   },
   {
-    title: "Quantum Riddle",
-    description: "A mind-bending puzzle that combines logic and quantum mechanics principles.",
+    title: "Number Trail",
+    description: "Decode the strange numbers to uncover the truth.",
     imageUrl: "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?auto=format&fit=crop&q=80&w=1000"
   }
 ];
@@ -80,6 +80,12 @@ const PuzzlesPage: React.FC = () => {
             ))}
           </motion.div>
         </div>
+        <div className="mt-10 text-center">
+          <p className="text-2xl font-bold text-white animate-pulse">
+            More Puzzles Coming Soon!
+          </p>
+        </div>
+
       </div>
 
       {selectedPuzzle && (
@@ -89,6 +95,7 @@ const PuzzlesPage: React.FC = () => {
         />
       )}
     </div>
+
   );
 };
 
