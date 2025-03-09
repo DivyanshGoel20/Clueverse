@@ -1,0 +1,3 @@
+[submodule "my-app/src/contracts/lib/forge-std"]
+	path = my-app/src/contracts/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
