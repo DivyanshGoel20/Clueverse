@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import PuzzleCase from '../components/PuzzleCase';
 import PuzzleModal from '../components/PuzzleModal';
 import Header from '../components/Header';
-import Background from '../components/Background';
+// import Background from '../components/Background';
 
 const puzzles = [
   {
@@ -49,21 +49,23 @@ const PuzzlesPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-indigo-800 transition-all duration-1000">
-      <Background />
-      
+    <div className="min-h-screen transition-all duration-1000">
+      {/* <Background /> */}
+
       <div className="relative z-10">
-        <motion.div 
-          className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-purple-500/10 via-transparent to-transparent"
+        <motion.div
+          className="absolute inset-0 z-0 pointer-events-none bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-purple-500/10 via-transparent to-transparent"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1.5 }}
         />
-        
+
+
+
         <div className="max-w-7xl mx-auto px-6 py-12">
           <Header walletAddress={walletAddress} />
-          
-          <motion.div 
+
+          <motion.div
             className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
             variants={container}
             initial="hidden"

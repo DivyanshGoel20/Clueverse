@@ -1,76 +1,67 @@
-import React, { createContext, useContext, useState, useEffect, useRef } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 
-interface AudioContextType {
+const AudioContext = createContext<{
   isPlaying: boolean;
   toggleAudio: () => void;
-}
+} | undefined>(undefined);
 
-const AudioContext = createContext<AudioContextType | undefined>(undefined);
-
-// Using a more reliable audio source
-const AUDIO_URL = 'https://assets.mixkit.co/music/preview/mixkit-tech-house-vibes-130.mp3';
-
-export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const AudioProvider = ({ children }: { children: React.ReactNode }) => {
   const [isPlaying, setIsPlaying] = useState(() => {
     return localStorage.getItem('audioEnabled') === 'true';
   });
-  const [audioLoaded, setAudioLoaded] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
-    const audio = new Audio();
+    const audio = new Audio('/music/puzzle-game-music.wav'); // must be in public/music
     audio.loop = true;
     audio.volume = 0.3;
-    
-    const handleCanPlayThrough = () => {
-      setAudioLoaded(true);
-      audioRef.current = audio;
-    };
 
-    const handleError = (e: ErrorEvent) => {
-      console.error('Audio loading error:', e.message);
-      setAudioLoaded(false);
-      setIsPlaying(false);
-    };
+    audioRef.current = audio;
 
-    audio.addEventListener('canplaythrough', handleCanPlayThrough);
-    audio.addEventListener('error', handleError);
-    
-    // Load the audio
-    audio.src = AUDIO_URL;
-    audio.load();
+    const previouslyEnabled = localStorage.getItem('audioEnabled') === 'true';
+
+    if (previouslyEnabled || true) { // 👈 force attempt to play
+      const playPromise = audio.play();
+      playPromise
+        .then(() => {
+          setIsPlaying(true);
+        })
+        .catch((error) => {
+          console.warn('Autoplay failed, waiting for user interaction:', error);
+          setIsPlaying(false);
+        });
+    }
 
     return () => {
-      audio.removeEventListener('canplaythrough', handleCanPlayThrough);
-      audio.removeEventListener('error', handleError);
       audio.pause();
-      audio.src = '';
       audioRef.current = null;
     };
   }, []);
 
   useEffect(() => {
-    if (!audioRef.current || !audioLoaded) return;
+    const audio = audioRef.current;
+    if (!audio) return;
 
     if (isPlaying) {
-      const playPromise = audioRef.current.play();
-      if (playPromise !== undefined) {
-        playPromise.catch((error) => {
-          console.error('Playback prevented:', error);
-          setIsPlaying(false);
-        });
-      }
+      audio.play().catch((e) => {
+        console.warn('Play failed:', e);
+        setIsPlaying(false);
+      });
     } else {
-      audioRef.current.pause();
+      audio.pause();
     }
 
-    localStorage.setItem('audioEnabled', isPlaying.toString());
-  }, [isPlaying, audioLoaded]);
+    localStorage.setItem('audioEnabled', String(isPlaying));
+  }, [isPlaying]);
 
   const toggleAudio = () => {
-    if (audioLoaded) {
-      setIsPlaying(prev => !prev);
-    }
+    setIsPlaying((prev) => !prev);
   };
 
   return (
@@ -82,7 +73,7 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
 export const useAudio = () => {
   const context = useContext(AudioContext);
-  if (context === undefined) {
+  if (!context) {
     throw new Error('useAudio must be used within an AudioProvider');
   }
   return context;

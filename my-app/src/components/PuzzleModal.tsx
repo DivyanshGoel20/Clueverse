@@ -85,13 +85,6 @@ const PuzzleModal: React.FC<PuzzleModalProps> = ({ puzzle, onClose }) => {
               >
                 Start Challenge
               </motion.button>
-              <motion.button 
-                className="px-6 py-4 rounded-xl font-semibold text-lg border border-purple-500/30 text-white hover:bg-purple-500/10"
-                whileHover={{ scale: 1.02, y: -2 }}
-                whileTap={{ scale: 0.98 }}
-              >
-                Learn More
-              </motion.button>
             </div>
           </motion.div>
         </motion.div>
