@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useAccount, useWriteContract, useReadContract } from 'wagmi';
 import { parseEther } from 'viem';
 import { CONTRACT_ABI, CONTRACT_ADDRESS } from '../lib/clueverseContract';
+import toast from 'react-hot-toast';
 
 interface PuzzleModalProps {
   puzzle: {
@@ -32,21 +33,20 @@ const PuzzleModal: React.FC<PuzzleModalProps> = ({ puzzle, onClose, puzzleId }) 
   const { writeContractAsync, isPending } = useWriteContract();
 
   const handleSubmit = async () => {
-    setStatusMessage('');
-    try {
-      await writeContractAsync({
+    toast.promise(
+      writeContractAsync({
         address: CONTRACT_ADDRESS,
         abi: CONTRACT_ABI,
         functionName: 'submitAnswer',
         args: [puzzleId, userAnswer],
         value: parseEther('1'),
-      });
-
-      setStatusMessage('✅ Answer submitted!');
-    } catch (err: any) {
-      setStatusMessage('❌ Transaction failed.');
-      console.error(err);
-    }
+      }),
+      {
+        loading: 'Submitting answer...',
+        success: '✅ Transaction successful!',
+        error: '❌ Transaction failed',
+      }
+    );
   };
 
   useEffect(() => {
@@ -68,14 +68,14 @@ const PuzzleModal: React.FC<PuzzleModalProps> = ({ puzzle, onClose, puzzleId }) 
 
   return (
     <AnimatePresence>
-      <motion.div 
+      <motion.div
         className="fixed inset-0 bg-black/80 backdrop-blur-xl flex items-center justify-center z-50 p-4"
         onClick={handleBackdropClick}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
       >
-        <motion.div 
+        <motion.div
           className="relative w-full max-w-3xl bg-gradient-to-br from-gray-900 to-black rounded-2xl overflow-hidden border border-purple-500/30"
           initial={{ scale: 0.9, y: 20 }}
           animate={{ scale: 1, y: 0 }}
@@ -91,9 +91,9 @@ const PuzzleModal: React.FC<PuzzleModalProps> = ({ puzzle, onClose, puzzleId }) 
           >
             <X className="w-6 h-6 text-white/80" />
           </motion.button>
-          
+
           <div className="h-72 relative">
-            <motion.img 
+            <motion.img
               src={puzzle.imageUrl}
               alt={puzzle.title}
               className="w-full h-full object-cover"
@@ -103,8 +103,8 @@ const PuzzleModal: React.FC<PuzzleModalProps> = ({ puzzle, onClose, puzzleId }) 
             />
             <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent" />
           </div>
-          
-          <motion.div 
+
+          <motion.div
             className="relative p-8"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -144,8 +144,9 @@ const PuzzleModal: React.FC<PuzzleModalProps> = ({ puzzle, onClose, puzzleId }) 
                   placeholder="Enter your answer"
                   className="w-full p-3 rounded-lg bg-black/30 border border-white/20 text-white placeholder-white/50"
                 />
+                <p className="text-sm text-yellow-400 mb-4">⚠️ The answer is case-sensitive.</p>
 
-                <motion.button 
+                <motion.button
                   className="w-full bg-purple-600 text-white py-3 px-6 rounded-xl font-semibold text-lg hover:bg-purple-700 transition-colors"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
@@ -161,7 +162,7 @@ const PuzzleModal: React.FC<PuzzleModalProps> = ({ puzzle, onClose, puzzleId }) 
               </div>
             ) : (
               <div className="flex gap-4 relative">
-                <motion.button 
+                <motion.button
                   className="flex-1 bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-4 px-6 rounded-xl font-semibold text-lg shadow-lg hover:shadow-purple-500/20"
                   whileHover={{ scale: 1.02, y: -2 }}
                   whileTap={{ scale: 0.98 }}

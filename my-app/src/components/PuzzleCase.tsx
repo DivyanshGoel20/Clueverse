@@ -8,6 +8,7 @@ interface PuzzleCaseProps {
   onSelect: () => void;
 }
 
+
 const PuzzleCase: React.FC<PuzzleCaseProps> = ({ title, description, imageUrl, onSelect }) => {
   return (
     <motion.div 

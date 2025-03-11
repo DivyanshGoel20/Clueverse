@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { Music, Music2 } from 'lucide-react';
 import { useAudio } from '../context/AudioContext';
 
@@ -19,12 +19,15 @@ const Header: React.FC<HeaderProps> = ({ walletAddress }) => {
   return (
     <div className="flex items-center justify-between mb-8">
       <div className="flex items-center">
-        {/* <img
-          src="/logo.png"
-          alt="Clueverse Logo"
-          className="w-8 h-8 mr-3 object-contain"
-          /> */}
-        <h1 className="text-3xl font-bold text-white">Clueverse</h1>
+        <h1 className="text-3xl font-bold text-white mr-6">Clueverse</h1>
+
+        {/* ✅ How It Works link */}
+        <Link
+          to="/how-it-works"
+          className="px-4 py-2 bg-purple-600 text-white rounded-lg font-medium text-md hover:bg-purple-700 transition-colors"
+        >
+          How it works
+        </Link>
       </div>
 
       <div className="flex items-center gap-4">

@@ -106,4 +106,4 @@ const PuzzlesPage: React.FC = () => {
   );
 };
 
-export default PuzzlesPage;
+export default PuzzlesPage;
