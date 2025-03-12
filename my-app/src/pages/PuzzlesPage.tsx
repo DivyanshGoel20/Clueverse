@@ -43,6 +43,7 @@ const PuzzlesPage: React.FC = () => {
     }
     setWalletAddress(address);
   }, [navigate]);
+  
 
   const container = {
     hidden: { opacity: 0 },

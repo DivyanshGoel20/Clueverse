@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import WalletConnect from './components/WalletConnect';
 import PuzzlesPage from './pages/PuzzlesPage';
 import HowItWorks from './pages/HowItWorks';
+import NFTCollection from './pages/NFTCollection';
 import { AudioProvider } from './context/AudioContext';
 import Background from './components/Background';
 
@@ -17,6 +18,7 @@ function App() {
               <Route path="/" element={<WalletConnect />} />
               <Route path="/puzzles" element={<PuzzlesPage />} />
               <Route path="/how-it-works" element={<HowItWorks />} />
+              <Route path="/nft-collection" element={<NFTCollection />} />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </Router>
