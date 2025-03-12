@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAccount, useSwitchChain } from 'wagmi';
+// import { useAccount, useSwitchChain } from 'wagmi';
 import { ethers } from 'ethers';
 
 const WalletConnect: React.FC = () => {
   const [isConnecting, setIsConnecting] = useState(false);
   const navigate = useNavigate();
 
-  const { chainId, isConnected } = useAccount();
-  const { chains, switchChain } = useSwitchChain();
+  // const { chainId, isConnected } = useAccount();
+  // const { chains, switchChain } = useSwitchChain();
 
-  const coreTestnetId = 1115;
+  // const coreTestnetId = 1114;
 
   const connectWallet = async () => {
     try {
@@ -21,6 +21,48 @@ const WalletConnect: React.FC = () => {
         return;
       }
 
+      // Prompt wallet connection
+      await ethereum.request({ method: 'eth_requestAccounts' });
+
+      // Try switching to Core Testnet 2
+      try {
+        await ethereum.request({
+          method: 'wallet_switchEthereumChain',
+          params: [{ chainId: '0x45A' }], // 1114 in hex
+        });
+      } catch (switchError: any) {
+        // If Core Testnet isn't added to MetaMask
+        if (switchError.code === 4902) {
+          try {
+            await ethereum.request({
+              method: 'wallet_addEthereumChain',
+              params: [
+                {
+                  chainId: '0x45A', // 1114 in hex
+                  chainName: 'Core Blockchain Testnet 2',
+                  nativeCurrency: {
+                    name: 'Core',
+                    symbol: 'tCORE2',
+                    decimals: 18,
+                  },
+                  rpcUrls: ['https://rpc.test2.btcs.network/'],
+                  blockExplorerUrls: ['https://scan.test2.btcs.network'],
+                },
+              ],
+            });
+          } catch (addError) {
+            console.error('Failed to add Core Testnet:', addError);
+            alert('Please switch to Core Testnet manually in your wallet.');
+            return;
+          }
+        } else {
+          console.error('Failed to switch chain:', switchError);
+          alert('Failed to switch to Core Testnet.');
+          return;
+        }
+      }
+
+      // Wallet connected & chain switched
       const provider = new ethers.BrowserProvider(ethereum);
       const signer = await provider.getSigner();
       const address = await signer.getAddress();
@@ -34,25 +76,6 @@ const WalletConnect: React.FC = () => {
       setIsConnecting(false);
     }
   };
-
-  useEffect(() => {
-    const trySwitchChain = async () => {
-      if (!isConnected || !switchChain || !chainId) return;
-
-      if (chainId !== coreTestnetId) {
-        const targetChain = chains.find((c) => c.id === coreTestnetId);
-        if (targetChain) {
-          try {
-            await switchChain({ chainId: coreTestnetId });
-          } catch (err) {
-            console.warn('Failed to switch chain:', err);
-          }
-        }
-      }
-    };
-
-    trySwitchChain();
-  }, [isConnected, chainId, chains, switchChain]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-900 to-indigo-800 flex items-center justify-center px-4">

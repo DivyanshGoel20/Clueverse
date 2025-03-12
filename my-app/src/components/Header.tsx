@@ -2,12 +2,10 @@ import React from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Music, Music2 } from 'lucide-react';
 import { useAudio } from '../context/AudioContext';
+import { useAccount } from 'wagmi';
 
-interface HeaderProps {
-  walletAddress: string;
-}
-
-const Header: React.FC<HeaderProps> = ({ walletAddress }) => {
+const Header: React.FC = () => {
+  const { address } = useAccount();
   const navigate = useNavigate();
   const { isPlaying, toggleAudio } = useAudio();
 
@@ -43,9 +41,11 @@ const Header: React.FC<HeaderProps> = ({ walletAddress }) => {
             <Music2 className="w-5 h-5 text-gray-600 dark:text-gray-300" />
           )}
         </button>
-        <span className="text-gray-600 dark:text-gray-300">
-          {walletAddress.slice(0, 6)}...{walletAddress.slice(-4)}
-        </span>
+        {address && (
+          <span className="text-gray-600 dark:text-gray-300">
+            {address.slice(0, 6)}...{address.slice(-4)}
+          </span>
+        )}
         <button
           onClick={handleDisconnect}
           className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
