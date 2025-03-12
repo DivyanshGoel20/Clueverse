@@ -12,21 +12,21 @@ const puzzles = [
     description: "What you’re looking for is scattered — bring it together.",
     imageUrl: "https://imgs.search.brave.com/-erWI0Ooq0n96w1plSY7Ap5gK7QrML2vokLa2hHvZQ4/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvOTY1/MDIyMjEvcGhvdG8v/amlnc2F3LXB1enps/ZS1waWVjZXMuanBn/P3M9NjEyeDYxMiZ3/PTAmaz0yMCZjPTY1/M0l5TEY0S0ZlOXdw/ZnBSWEkwWlBCNkxo/VGhIclhvMi1MRWVB/YURvTW89",
     content: "Solve the jigsaw and find the answer: https://www.jigidi.com/s/29n1zi/",
-    id: 0
+    id: 1
   },
   {
     title: "Repo Secrets",
     description: "A mysterious GitHub repo holds something hidden.",
     imageUrl: "https://images.unsplash.com/photo-1614741118887-7a4ee193a5fa?auto=format&fit=crop&q=80&w=1000",
     content: "Explore the mystery within this GitHub repo: https://github.com/Zombie-Wombie",
-    id: 1
+    id: 2
   },
   {
     title: "Number Trail",
     description: "Decode the strange numbers to uncover the truth.",
     imageUrl: "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?auto=format&fit=crop&q=80&w=1000",
     content: "What message hides in these numbers? 104 116 116 112 115 58 47 47 116 97 108 108 121 46 115 111 47 114 47 119 52 122 56 55 53",
-    id: 2
+    id: 3
   }
 ];
 

@@ -43,8 +43,8 @@ const PuzzleModal: React.FC<PuzzleModalProps> = ({ puzzle, onClose, puzzleId }) 
       }),
       {
         loading: 'Submitting answer...',
-        success: '✅ Transaction successful!',
-        error: '❌ Transaction failed',
+        success: 'Transaction successful!',
+        error: 'Transaction failed',
       }
     );
   };
